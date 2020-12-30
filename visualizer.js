@@ -125,7 +125,7 @@ AUDIO.VISUALIZER = (function () {
      * @return {Object}
      */
     Visualizer.prototype.setCanvasStyles = function () {
-        this.gradient = this.canvasCtx.createLinearGradient(200, 500, 0, 300);
+        this.gradient = this.canvasCtx.createLinearGradient(500, 800, 0, 300);
         this.gradient.addColorStop(1, this.barColor);
         this.canvasCtx.fillStyle = this.gradient;
         this.canvasCtx.shadowBlur = this.shadowBlur;
@@ -144,15 +144,17 @@ AUDIO.VISUALIZER = (function () {
     Visualizer.prototype.bindEvents = function () {
         var _this = this;
 
+       
+
         document.addEventListener('click', function (e) {
             var playBtn = document.getElementById("controls");
-
             if (e.target === playBtn) {
                 playBtn.onclick = function () {
-                    /* location.href = "index.html"; */
                     e.stopPropagation();
+
                 };
 
+                
                 if (!_this.isPlaying) {
                     return (_this.ctx.state === 'suspended') ? _this.playSound() : _this.loadSound();
                 } else {
@@ -167,7 +169,11 @@ AUDIO.VISUALIZER = (function () {
 
         return this;
     };
-
+        var pause = document.getElementById("pause");
+        pause.onclick = function(e){
+            console.log(this);
+            pauseSound();
+        }
     /**
      * @description
      * Load sound file.
@@ -194,9 +200,13 @@ AUDIO.VISUALIZER = (function () {
     Visualizer.prototype.playSound = function (buffer) {
         this.isPlaying = true;
 
+
         if (this.ctx.state === 'suspended') {
             return this.ctx.resume();
+
         }
+
+
 
         this.sourceNode.buffer = buffer;
         this.sourceNode.start(0);
@@ -210,8 +220,9 @@ AUDIO.VISUALIZER = (function () {
      * Pause current sound.
      */
     Visualizer.prototype.pauseSound = function () {
-        this.ctx.suspend();
 
+        this.ctx.suspend();
+        document.getElementById("controls").style.display = "block";
         this.isPlaying = false;
     };
 
@@ -220,11 +231,13 @@ AUDIO.VISUALIZER = (function () {
      * Start playing timer.
      */
 
+
     Visualizer.prototype.startTimer = function () {
         var _this = this;
         INTERVAL = setInterval(function () {
 
             if (_this.isPlaying) {
+
                 var now = new Date(_this.duration);
                 var min = now.getHours();
                 var sec = now.getMinutes();
@@ -233,7 +246,7 @@ AUDIO.VISUALIZER = (function () {
                 _this.duration = now.setMinutes(sec + 1);
 
                 let timerPlaceholder = document.getElementById("timer");
-                var timer = `${_this.minutes} : ${_this.seconds}`;  
+                var timer = `${_this.minutes} : ${_this.seconds}`;
                 timerPlaceholder.innerText = timer;
 
             }
@@ -325,8 +338,11 @@ AUDIO.VISUALIZER = (function () {
         var slicedPercent = Math.floor((maxBarNum * 25) / 100);
         var barNum = maxBarNum - slicedPercent;
         var freqJump = Math.floor(this.frequencyData.length / maxBarNum);
+        document.getElementById("pause").style.display = "block";
+        document.getElementById("controls").style.display = "hidden";
 
         for (var i = 0; i < barNum; i++) {
+
             var amplitude = this.frequencyData[i * freqJump];
             var alfa = (i * 2 * Math.PI) / maxBarNum;
             var beta = (3 * 45 - this.barWidth) * Math.PI / 180;
@@ -334,13 +350,13 @@ AUDIO.VISUALIZER = (function () {
             var y = radius - (amplitude / 12 - this.barHeight);
             var w = this.barWidth;
             var h = amplitude / 6 + this.barHeight;
-            
-            
+
+
             /* document.getElementById('cover').style.height = amplitude + '%';
             document.getElementById('cover').style.width = amplitude + '%'; */
             document.getElementById('cover').style.boxShadow = `1px 1px ${amplitude - 50}px red`;
             document.getElementById('cover').style.filter = ` hue-rotate(${amplitude}deg) `;
-            
+
 
 
             this.canvasCtx.save();

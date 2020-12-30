@@ -3,8 +3,7 @@
 
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet"
+        <meta name="viewport" content="width=device-width, initial-scale=1">        <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <link rel="stylesheet" href="style.css">
 
@@ -13,7 +12,7 @@
 
 
     <body>
-        <a href="index.html">klikk her</a>
+        <a id="start" href="index.html">klikk her for lyd</a>
         <div class="vz-wrapper">
             <audio id="myAudio" muted src="Rick Astley - Never Gonna Give You Up (Video).mp3" data-author="Beethoven" data-title="Allegro"></audio>
 
@@ -27,9 +26,9 @@
 
             </div>
             <i id="controls" class="fa fa-play-circle"></i>
-            <i class="fas fa-pause"></i>
-            <i class="fas fa-step-forward"></i>
-            <i class="fas fa-step-backward"></i>
+            <i id="pause" class="fa fa-pause"></i>
+            <i class="fa fa-step-forward"></i>
+            <i class="fa fa-step-backward"></i>
             <script src="visualizer.js">
 
             </script>
