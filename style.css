@@ -106,6 +106,12 @@ img {
         height: 85%;
         
     }
+    html, body {
+        overflow-x: hidden;
+      }
+      body {
+        position: relative;
+      }
     #start{
         color: red;
         position: absolute;
